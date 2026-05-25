@@ -1,0 +1,98 @@
+<div class="settings-container">
+  
+  
+  <section class="user-profile-section">
+    <div class="profile-card">
+      <div class="profile-header">
+        <img [src]="userData.profileImage" alt="Foto de perfil" class="profile-image">
+        <div class="profile-info">
+          <h2 class="name">{{ userData.name }}</h2>
+          <p class="email">{{ userData.email }}</p>
+        </div>
+      </div>
+
+      <div class="profile-details">
+        <div class="detail-item">
+          <mat-icon class="detail-icon">email</mat-icon>
+          <div>
+            <label>Correo Electrónico</label>
+            <p>{{ userData.email }}</p>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <mat-icon class="detail-icon">phone</mat-icon>
+          <div>
+            <label>Teléfono</label>
+            <p>{{ userData.phone }}</p>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <mat-icon class="detail-icon">support_agent</mat-icon>
+          <div>
+            <label>Cargo</label>
+            <p>{{ userData.jobTitle }}</p>
+          </div>
+        </div>
+      </div>
+
+      <button 
+        mat-raised-button 
+        color="warn" 
+        class="logout-btn"
+        (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Cerrar Sesión
+      </button>
+    </div>
+  </section>
+
+  
+  <section class="app-info-section">
+    <h3 class="section-title">Información de la Aplicación</h3>
+    
+    <div class="app-info-card">
+      <div class="app-header">
+        <div class="app-logo">
+          <img src="assets/images/miTurnologo.png" alt="Mi Turno Web Logo" class="logo-img">
+        </div>
+        <div class="app-name-version">
+          <h3 class="app-name">{{ appInfo.name }}</h3>
+          <p class="version">v{{ appInfo.version }}</p>
+        </div>
+      </div>
+
+      <div class="app-details">
+        <div class="detail-row">
+          <label>Versión de la Aplicación</label>
+          <span class="version-tag">{{ appInfo.version }}</span>
+        </div>
+
+        <div class="detail-row">
+          <label>User Agent</label>
+          <div class="user-agent-container">
+            <p class="user-agent-text">{{ appInfo.userAgent }}</p>
+            <button 
+              mat-icon-button 
+              matTooltip="Copiar User Agent"
+              (click)="copyUserAgent()">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="detail-row">
+          <label>Sistema Operativo</label>
+          <span>{{ appInfo.userAgent.includes('Windows') ? 'Windows' : appInfo.userAgent.includes('Mac') ? 'macOS' : appInfo.userAgent.includes('Linux') ? 'Linux' : appInfo.userAgent.includes('Android') ? 'Android' : appInfo.userAgent.includes('iPhone') ? 'iOS' : 'Desconocido' }}</span>
+        </div>
+
+        <div class="detail-row">
+          <label>Navegador</label>
+          <span>{{ appInfo.userAgent.includes('Chrome') ? 'Chrome' : appInfo.userAgent.includes('Firefox') ? 'Firefox' : appInfo.userAgent.includes('Safari') ? 'Safari' : appInfo.userAgent.includes('Edge') ? 'Edge' : 'Desconocido' }}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

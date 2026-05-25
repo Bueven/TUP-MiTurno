@@ -1,0 +1,55 @@
+<mat-sidenav-container class="sidenav-container">
+  
+  <mat-sidenav
+    #sidenav
+    mode="side"
+    [opened]="!(isHandset$ | async)"
+    class="sidenav"
+  >
+    <mat-toolbar class="sidenav-header">
+      <h2 class="subtitle">Mi Turno Web</h2>
+    </mat-toolbar>
+
+    <mat-nav-list>
+      <mat-list-item
+        (click)="navigateTo('items')"
+        [class.active]="currentView === 'items'"
+      >
+        <mat-icon matListItemIcon>list_alt</mat-icon>
+        <span matListItemTitle>Items</span>
+      </mat-list-item>
+
+      <mat-list-item
+        (click)="navigateTo('settings')"
+        [class.active]="currentView === 'settings'"
+      >
+        <mat-icon matListItemIcon>settings</mat-icon>
+        <span matListItemTitle>Configuración</span>
+      </mat-list-item>
+    </mat-nav-list>
+
+    <div class="sidebar-footer">
+      <button mat-raised-button color="warn" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        Cerrar Sesión
+      </button>
+    </div>
+  </mat-sidenav>
+
+ 
+  <mat-sidenav-content>
+   
+    <mat-toolbar color="primary" class="mobile-toolbar" *ngIf="isHandset$ | async">
+      <button mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Mi Turno Web</span>
+    </mat-toolbar>
+
+   
+    <div class="content">
+      <app-items *ngIf="currentView === 'items'"></app-items>
+      <app-settings *ngIf="currentView === 'settings'"></app-settings>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

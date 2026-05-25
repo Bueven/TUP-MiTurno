@@ -1,0 +1,90 @@
+.confirm-dialog {
+  min-width: 22rem;
+  padding: 0;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0;
+}
+
+.warning-icon {
+  color: var(--color-error);
+  font-size: 2.5rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+}
+
+.dialog-title {
+  margin: 0;
+  color: var(--color-dark-gray);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.dialog-content {
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+.dialog-message {
+  margin: 0;
+  color: var(--color-medium-gray);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.dialog-button {
+  min-width: 7.5rem;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 500;
+  border-radius: 0.5rem !important;
+}
+
+.dialog-button:first-child {
+  background: var(--color-primary) !important;
+  color: var(--color-white) !important;
+}
+
+.dialog-button:first-child:hover {
+  box-shadow: 0 4px 12px var(--color-shadow-primary-dark) !important;
+  transform: translateY(-1px);
+}
+
+.dialog-button--confirm {
+  background: var(--color-primary) !important;
+  color: var(--color-white) !important;
+  box-shadow: 0 2px 8px var(--color-shadow-primary) !important;
+}
+
+.dialog-button--confirm:hover {
+  box-shadow: 0 4px 12px var(--color-shadow-primary-dark) !important;
+  transform: translateY(-1px);
+}
+
+::ng-deep .mat-mdc-dialog-container {
+  overflow: visible !important;
+}
+ 
+::ng-deep .mdc-dialog__surface {
+  overflow: hidden !important;
+}
+ 
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
+  padding: 24px !important;
+  box-shadow: 0 11px 15px -7px rgba(0, 0, 0, 0.2), 
+              0 24px 38px 3px rgba(0, 0, 0, 0.14), 
+              0 9px 46px 8px rgba(0, 0, 0, 0.12) !important;
+}
