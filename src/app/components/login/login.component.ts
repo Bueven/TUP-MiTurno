@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
+import { AuthService } from '../../services/auth';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -18,30 +20,33 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
   isLoading = false;
+constructor() {
+  
 
-  constructor(private router: Router) {}
+  this.authService.user$.subscribe(user => {
+    
 
-  login(): void {
-    if (this.isLoading) return;
-
-    this.isLoading = true;
-    console.log('⏳ Iniciando sesión...');
-
-    setTimeout(() => {
-      const fakeUser = {
-        id: 'user-123',
-        name: 'Juan Pérez',
-        email: 'juan@example.com',
-        loginAt: new Date().getTime(),
-        jobTitle: 'Recepcionista'
-      };
-
-      sessionStorage.setItem('session', JSON.stringify(fakeUser));
-      console.log('✅ Sesión guardada');
-
+    if (user) {
+      
       this.router.navigate(['/main']);
-      this.isLoading = false;
-    }, 2000);
-  }
+    }
+  });
+}
+
+
+login() {
+  if (this.isLoading) return;
+
+  this.isLoading = true;
+
+
+  this.authService.loginWithGoogle().catch(error => {
+   
+    this.isLoading = false;
+  });
+}
 }

@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-settings',
@@ -24,7 +25,7 @@ export class SettingsComponent implements OnInit {
     jobTitle: ''
   };
 
-  // Información de la aplicación
+  
   appInfo = {
     name: 'Mi Turno Web',
     version: '1.0.0',
@@ -32,23 +33,26 @@ export class SettingsComponent implements OnInit {
   };
 
   constructor(
+    private authService: AuthService,
     private router: Router,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.loadUserDataFromSession();
+    this.loadUserDataFromFirebase();
   }
 
-  // Cargar información del usuario desde sessionStorage
-  private loadUserDataFromSession(): void {
-    const sessionData = sessionStorage.getItem('session');
-    if (sessionData) {
-      const user = JSON.parse(sessionData);
+  
+  private loadUserDataFromFirebase(): void {
+    this.authService.userProfile$.subscribe(user => {
+      if (!user) return;
       this.userData.name = user.name;
       this.userData.email = user.email;
       this.userData.jobTitle = user.jobTitle;
-    }
+      this.cdr.detectChanges();
+      
+    });
   }
 
   
@@ -65,18 +69,22 @@ export class SettingsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        // Limpiar sesión del sessionStorage
-        sessionStorage.removeItem('userSession');
-        sessionStorage.removeItem('items');
-        sessionStorage.removeItem('itemsTimestamp');
-        
-        // Navegar al login
-        this.router.navigate(['/login']);
+        this.authService.logout().then(() => {
+         
+          sessionStorage.removeItem('session');
+          sessionStorage.removeItem('items');
+          sessionStorage.removeItem('itemsTimestamp');
+
+          
+          this.router.navigate(['/login']);
+        }).catch(error => {
+          console.error('Error al cerrar sesión:', error);
+        });
       }
     });
   }
 
-  // Método para copiar User Agent al portapapeles
+  
   copyUserAgent(): void {
     navigator.clipboard.writeText(this.appInfo.userAgent).then(() => {
       alert('User Agent copiado al portapapeles');

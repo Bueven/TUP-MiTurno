@@ -13,6 +13,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { AuthService } from '../../services/auth';
 
 interface UsuarioSistema {
   id: string;
@@ -48,6 +49,7 @@ export class MainComponent implements OnInit {
   userInfo: UsuarioSistema | null = null;
 
   constructor(
+    private authService: AuthService,
     private router: Router,
     private dialog: MatDialog,
     private breakpointObserver: BreakpointObserver
@@ -74,21 +76,25 @@ export class MainComponent implements OnInit {
   }
 
   logout(): void {
-  this.dialog.open(ConfirmDialogComponent, {
-    width: '400px',
-    data: {
-      title: 'Cerrar Sesión',
-      message: '¿Estás seguro de que deseas cerrar sesión?',
-      confirmText: 'Cerrar Sesión',
-      cancelText: 'Cancelar'
-    }
-  }).afterClosed().subscribe(result => {
-    if (result) {
-      sessionStorage.removeItem('session');
-      sessionStorage.removeItem('items');
-      sessionStorage.removeItem('itemsTimestamp');
-      this.router.navigate(['/login']);
-    }
-  });
-}
+    this.dialog.open(ConfirmDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Cerrar Sesión',
+        message: '¿Estás seguro de que deseas cerrar sesión?',
+        confirmText: 'Cerrar Sesión',
+        cancelText: 'Cancelar'
+      }
+    }).afterClosed().subscribe(result => {
+      if (result) {
+        this.authService.logout().then(() => {
+          sessionStorage.removeItem('session');
+          sessionStorage.removeItem('items');
+          sessionStorage.removeItem('itemsTimestamp');
+          this.router.navigate(['/login']);
+        }).catch(error => {
+          console.error('Error al cerrar sesión:', error);
+        });
+      }
+    });
+  }
 }
