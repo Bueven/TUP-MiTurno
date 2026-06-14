@@ -1,0 +1,12 @@
+{
+  "/api": {
+    "target": "https://overpass.kumi.systems",
+    "pathRewrite": {
+      "^/api": ""
+    },
+    "changeOrigin": true,
+    "secure": false,
+    "logLevel": "debug",
+    "onProxyReq": "function(proxyReq, req, res) { proxyReq.setHeader('Content-Type', 'text/plain'); }"
+  }
+}

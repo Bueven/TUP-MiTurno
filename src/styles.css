@@ -1,1 +1,35 @@
-/* You can add global styles to this file, and also import other style files */
+﻿:root {
+  
+  --color-primary: #667eea;
+  --color-primary-dark: #764ba2;
+  --color-white: white;
+
+  
+  --color-dark-gray: #333;
+  --color-medium-gray: #666;
+  --color-medium-gray-2: #999;
+  --color-light-gray: #f0f4f8;
+  --color-bg-light: #f8f9fb;
+  --color-gray-placeholder: #b0b0b0;
+  --color-gray-border: #e0e0e0;
+  --color-gray-very-light: #ccc;
+  --color-very-dark: #1a1a1a;
+
+
+  --color-error: #ff6b6b;
+  --color-error-alt: #e74c3c;
+  --color-error-bg: #fff5f5;
+  --color-warning: #f39c12;
+  --color-info: #3498db;
+  --color-sidebar-hover: #d9d5f0;
+  --color-sidebar-active: #5a4a9a;
+
+
+  --color-shadow-dark: rgba(0, 0, 0, 0.1);
+  --color-shadow-dark-2: rgba(0, 0, 0, 0.12);
+  --color-shadow-dark-light: rgba(0, 0, 0, 0.08);
+  --color-shadow-dark-lighter: rgba(0, 0, 0, 0.06);
+  --color-shadow-primary: rgba(102, 126, 234, 0.3);
+  --color-shadow-primary-dark: rgba(102, 126, 234, 0.4);
+  --color-shadow-primary-light: rgba(102, 126, 234, 0.15);
+}

@@ -1,0 +1,35 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <div class="logo-section">
+      <div class="logo-svg-container">
+        <img src="assets/images/miTurnologo.png" alt="Mi Turno Web Logo" class="logo-img">
+        <h1 class="logo-title">Mi Turno Web</h1>
+      </div>
+      <p class="logo-subtitle">Gestiona tus citas médicas</p>
+    </div>
+
+    <mat-card-content>
+      <div *ngIf="isLoading" class="spinner-container">
+        <mat-spinner diameter="48"></mat-spinner>
+        <p class="loading-text">Verificando acceso...</p>
+      </div>
+
+      <div *ngIf="!isLoading" class="login-form">
+        <p class="welcome-text">Bienvenido</p>
+        <p class="info-text">Inicia sesión para continuar</p>
+      </div>
+    </mat-card-content>
+
+    <mat-card-actions class="login-actions">
+      <button 
+        mat-raised-button 
+        color="primary" 
+        (click)="login()"
+        [disabled]="isLoading"
+        class="login-btn">
+        <span *ngIf="!isLoading">Iniciar Sesión</span>
+        <span *ngIf="isLoading">Cargando...</span>
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>
