@@ -1,6 +1,5 @@
-import { Component, OnInit,ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,8 +14,7 @@ import { AuthService } from '../../services/auth';
   styleUrls: ['./settigns.component.css']
 })
 export class SettingsComponent implements OnInit {
-  
-  
+
   userData = {
     name: '',
     email: '',
@@ -25,7 +23,6 @@ export class SettingsComponent implements OnInit {
     jobTitle: ''
   };
 
-  
   appInfo = {
     name: 'Mi Turno Web',
     version: '1.0.0',
@@ -34,7 +31,6 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router,
     private dialog: MatDialog,
     private cdr: ChangeDetectorRef
   ) {}
@@ -69,17 +65,7 @@ export class SettingsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.authService.logout().then(() => {
-         
-          sessionStorage.removeItem('session');
-          sessionStorage.removeItem('items');
-          sessionStorage.removeItem('itemsTimestamp');
-
-          
-          this.router.navigate(['/login']);
-        }).catch(error => {
-          console.error('Error al cerrar sesión:', error);
-        });
+        this.authService.logout();
       }
     });
   }

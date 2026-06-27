@@ -1,7 +1,8 @@
 
 import { Injectable, inject } from '@angular/core';
 import { Auth, GoogleAuthProvider, signInWithPopup, signOut, user } from '@angular/fire/auth';
-import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { map, skip, filter } from 'rxjs/operators';
 
 interface SessionUser {
   uid: string;
@@ -17,8 +18,8 @@ interface SessionUser {
 export class AuthService {
 
   private auth = inject(Auth);
+  private router = inject(Router);
 
- 
   public user$ = user(this.auth);
 
   public userProfile$ = this.user$.pipe(
@@ -29,14 +30,21 @@ export class AuthService {
         name: firebaseUser.displayName ?? 'Usuario',
         email: firebaseUser.email ?? '',
         profileImage: firebaseUser.photoURL ?? 'assets/images/fotoperfil.jpg',
-        jobTitle: 'Recepcionista' 
+        jobTitle: 'Recepcionista'
       } as SessionUser;
     })
   );
 
-  constructor() { }
+  constructor() {
+    // Cuando user$ emite null (sesión cerrada), redirigir a /login
+    this.user$.pipe(
+      skip(1), // saltar la emisión inicial de Firebase al arrancar
+      filter(u => u === null)
+    ).subscribe(() => {
+      this.router.navigate(['/login']);
+    });
+  }
 
-  
   async loginWithGoogle() {
     try {
       const provider = new GoogleAuthProvider();
@@ -47,12 +55,7 @@ export class AuthService {
     }
   }
 
-async logout() {
-  try {
+  async logout() {
     await signOut(this.auth);
-  } catch (error) {
-    console.error('Error al cerrar sesión:', error);
-    throw error;
   }
-}
 }
