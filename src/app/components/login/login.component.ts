@@ -3,9 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -21,32 +19,16 @@ import { take } from 'rxjs/operators';
 })
 export class LoginComponent {
   private authService = inject(AuthService);
-  private router = inject(Router);
 
   isLoading = false;
-constructor() {
-  
 
-  this.authService.user$.subscribe(user => {
-    
+  login() {
+    if (this.isLoading) return;
 
-    if (user) {
-      
-      this.router.navigate(['/main']);
-    }
-  });
-}
+    this.isLoading = true;
 
-
-login() {
-  if (this.isLoading) return;
-
-  this.isLoading = true;
-
-
-  this.authService.loginWithGoogle().catch(error => {
-   
-    this.isLoading = false;
-  });
-}
+    this.authService.loginWithGoogle().catch(error => {
+      this.isLoading = false;
+    });
+  }
 }

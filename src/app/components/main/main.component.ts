@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -50,7 +49,6 @@ export class MainComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router,
     private dialog: MatDialog,
     private breakpointObserver: BreakpointObserver
   ) {
@@ -86,12 +84,7 @@ export class MainComponent implements OnInit {
       }
     }).afterClosed().subscribe(result => {
       if (result) {
-        this.authService.logout().then(() => {
-          sessionStorage.removeItem('session');
-          sessionStorage.removeItem('items');
-          sessionStorage.removeItem('itemsTimestamp');
-          this.router.navigate(['/login']);
-        }).catch(error => {
+        this.authService.logout().catch(error => {
           console.error('Error al cerrar sesión:', error);
         });
       }

@@ -1,8 +1,7 @@
 
 import { Injectable, inject } from '@angular/core';
 import { Auth, GoogleAuthProvider, signInWithPopup, signOut, user } from '@angular/fire/auth';
-import { Router } from '@angular/router';
-import { map, skip, filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 interface SessionUser {
   uid: string;
@@ -18,7 +17,6 @@ interface SessionUser {
 export class AuthService {
 
   private auth = inject(Auth);
-  private router = inject(Router);
 
   public user$ = user(this.auth);
 
@@ -34,16 +32,6 @@ export class AuthService {
       } as SessionUser;
     })
   );
-
-  constructor() {
-    // Cuando user$ emite null (sesión cerrada), redirigir a /login
-    this.user$.pipe(
-      skip(1), // saltar la emisión inicial de Firebase al arrancar
-      filter(u => u === null)
-    ).subscribe(() => {
-      this.router.navigate(['/login']);
-    });
-  }
 
   async loginWithGoogle() {
     try {
