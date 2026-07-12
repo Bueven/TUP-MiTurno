@@ -1,0 +1,14 @@
+[
+  {
+    "url": "http://localhost:59016/index.html",
+    "isRepresentativeRun": true,
+    "htmlPath": "C:\\Users\\Pc\\Desktop\\Facultad UTN\\Programacion 3\\mi-turno-web\\reports\\lighthouse\\localhost-index_html-2026_07_12_22_19_11.report.html",
+    "jsonPath": "C:\\Users\\Pc\\Desktop\\Facultad UTN\\Programacion 3\\mi-turno-web\\reports\\lighthouse\\localhost-index_html-2026_07_12_22_19_11.report.json",
+    "summary": {
+      "performance": 0.82,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 0.91
+    }
+  }
+]
