@@ -1,4 +1,4 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, isDevMode } from '@angular/core';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient } from '@angular/common/http';
@@ -6,6 +6,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { routes } from './app.routes';
+import { provideServiceWorker } from '@angular/service-worker';
 
 const firebaseConfig = {
   apiKey: "AIzaSyA4GibQm3T0PcQmqh_Ct3Vg0rkrpV2ebaU",
