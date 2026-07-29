@@ -1,55 +1,46 @@
 <mat-sidenav-container class="sidenav-container">
-  
-  <mat-sidenav
-    #sidenav
-    mode="side"
-    [opened]="!(isHandset$ | async)"
-    class="sidenav"
-  >
+  <mat-sidenav #sidenav mode="side" [opened]="(isHandset$ | async) === false" class="sidenav">
     <mat-toolbar class="sidenav-header">
-      <h2 class="subtitle">Mi Turno Web</h2>
+      <h2 class="subtitle">{{ 'COMMON.APP_NAME' | translate }}</h2>
     </mat-toolbar>
 
     <mat-nav-list>
-      <mat-list-item
-        (click)="navigateTo('items')"
-        [class.active]="currentView === 'items'"
-      >
+      <mat-list-item (click)="navigateTo('items')" [class.active]="currentView === 'items'">
         <mat-icon matListItemIcon>list_alt</mat-icon>
-        <span matListItemTitle>Items</span>
+        <span matListItemTitle>{{ 'MAIN.ITEMS' | translate }}</span>
       </mat-list-item>
 
-      <mat-list-item
-        (click)="navigateTo('settings')"
-        [class.active]="currentView === 'settings'"
-      >
+      <mat-list-item (click)="navigateTo('settings')" [class.active]="currentView === 'settings'">
         <mat-icon matListItemIcon>settings</mat-icon>
-        <span matListItemTitle>Configuración</span>
+        <span matListItemTitle>{{ 'MAIN.SETTINGS' | translate }}</span>
       </mat-list-item>
     </mat-nav-list>
 
     <div class="sidebar-footer">
       <button mat-raised-button color="warn" (click)="logout()">
         <mat-icon>logout</mat-icon>
-        Cerrar Sesión
+        {{ 'MAIN.LOGOUT' | translate }}
       </button>
     </div>
   </mat-sidenav>
 
- 
   <mat-sidenav-content>
-   
-    <mat-toolbar color="primary" class="mobile-toolbar" *ngIf="isHandset$ | async">
-      <button mat-icon-button (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <span>Mi Turno Web</span>
-    </mat-toolbar>
+    @if (isHandset$ | async) {
+      <mat-toolbar color="primary" class="mobile-toolbar">
+        <button mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <span>{{ 'COMMON.APP_NAME' | translate }}</span>
+      </mat-toolbar>
+    }
 
-   
     <div class="content">
-      <app-items *ngIf="currentView === 'items'"></app-items>
-      <app-settings *ngIf="currentView === 'settings'"></app-settings>
+      @if (currentView === 'items') {
+        <app-items></app-items>
+      }
+      @if (currentView === 'settings') {
+        <app-settings></app-settings>
+      }
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

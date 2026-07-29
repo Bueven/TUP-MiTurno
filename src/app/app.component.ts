@@ -8,7 +8,7 @@ import { filter } from 'rxjs/operators';
   standalone: true,
   imports: [RouterOutlet],
   template: `<router-outlet></router-outlet>`,
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
 export class AppComponent {
   title = 'mi-turno-web';
@@ -16,7 +16,6 @@ export class AppComponent {
   private readonly swUpdate = inject(SwUpdate);
 
   constructor() {
-    
     if (this.swUpdate.isEnabled) {
       this.swUpdate.versionUpdates
         .pipe(filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'))

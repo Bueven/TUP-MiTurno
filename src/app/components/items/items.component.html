@@ -1,145 +1,161 @@
 <div class="items-container">
-
   <div class="items-header">
-    <h2 class="items-title">Items</h2>
-    <button mat-icon-button (click)="refreshItems()" [disabled]="loading" matTooltip="Recargar items" class="items-refresh-btn">
+    <h2 class="items-title">{{ 'ITEMS.TITLE' | translate }}</h2>
+    <button
+      mat-icon-button
+      (click)="refreshItems()"
+      [disabled]="loading"
+      [matTooltip]="'ITEMS.REFRESH_TOOLTIP' | translate"
+      class="items-refresh-btn"
+    >
       <mat-icon>refresh</mat-icon>
     </button>
   </div>
 
-
   <div class="controls-section">
-
     <mat-form-field class="search-field">
-      <mat-label>Buscar por nombre, dirección o descripción</mat-label>
+      <mat-label>{{ 'ITEMS.SEARCH_LABEL' | translate }}</mat-label>
       <mat-icon matPrefix>search</mat-icon>
       <input
         matInput
         [(ngModel)]="searchTerm"
         (input)="onSearchChange($event)"
-        placeholder="Buscar..."
+        [placeholder]="'ITEMS.SEARCH_PLACEHOLDER' | translate"
       />
-      <button
-        mat-icon-button
-        matSuffix
-        *ngIf="searchTerm"
-        (click)="clearSearch()"
-        matTooltip="Limpiar búsqueda"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
+      @if (searchTerm) {
+        <button
+          mat-icon-button
+          matSuffix
+          (click)="clearSearch()"
+          [matTooltip]="'ITEMS.CLEAR_SEARCH_TOOLTIP' | translate"
+        >
+          <mat-icon>close</mat-icon>
+        </button>
+      }
     </mat-form-field>
 
     <mat-form-field class="sort-field">
-      <mat-label>Ordenar por</mat-label>
+      <mat-label>{{ 'ITEMS.SORT_LABEL' | translate }}</mat-label>
       <mat-select [(ngModel)]="sortField" (selectionChange)="onSortFieldChange(sortField)">
-        <mat-option *ngFor="let option of sortOptions" [value]="option.value">
-          {{ option.label }}
-        </mat-option>
+        @for (option of sortOptions; track option.value) {
+          <mat-option [value]="option.value">
+            {{ option.labelKey | translate }}
+          </mat-option>
+        }
       </mat-select>
     </mat-form-field>
 
-    
-    <button
-      mat-icon-button
-      *ngIf="sortField !== 'none'"
-      (click)="onSortFieldChange(sortField)"
-      [matTooltip]="'Orden: ' + (sortOrder === 'asc' ? 'Ascendente' : 'Descendente')"
-      class="sort-order-btn"
-    >
-      <mat-icon>{{ sortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
-    </button>
+    @if (sortField !== 'none') {
+      <button
+        mat-icon-button
+        (click)="onSortFieldChange(sortField)"
+        [matTooltip]="'ITEMS.SORT_ORDER_TOOLTIP' | translate: { order: sortOrderLabel }"
+        class="sort-order-btn"
+      >
+        <mat-icon>{{ sortOrder === 'asc' ? 'arrow_upward' : 'arrow_downward' }}</mat-icon>
+      </button>
+    }
   </div>
 
+  @if (loading) {
+    <div class="loading-container">
+      <mat-spinner [strokeWidth]="4" [diameter]="60"></mat-spinner>
+      <p class="loading-text">{{ 'ITEMS.LOADING' | translate }}</p>
+    </div>
+  }
 
-  <div *ngIf="loading" class="loading-container">
-    <mat-spinner [strokeWidth]="4" [diameter]="60"></mat-spinner>
-    <p class="loading-text">Cargando items...</p>
-  </div>
+  @if (error && !loading) {
+    <div class="error-container">
+      <mat-icon class="error-icon">error_outline</mat-icon>
+      <p class="error-text">{{ error }}</p>
+      <button mat-raised-button color="primary" (click)="refreshItems()">
+        {{ 'ITEMS.RETRY' | translate }}
+      </button>
+    </div>
+  }
 
- 
-  <div *ngIf="error && !loading" class="error-container">
-    <mat-icon class="error-icon">error_outline</mat-icon>
-    <p class="error-text">{{ error }}</p>
-    <button mat-raised-button color="primary" (click)="refreshItems()">
-      Intentar de nuevo
-    </button>
-  </div>
+  @if (!loading && !error) {
+    <div class="items-grid">
+      @for (item of filteredItems; track item.nombre) {
+        <mat-card class="item-card">
+          <mat-card-header class="card-header">
+            <h3 class="item-name">{{ item.nombre }}</h3>
+          </mat-card-header>
 
-  
-  <div *ngIf="!loading && !error" class="items-grid">
-    <mat-card
-      *ngFor="let item of filteredItems"
-      class="item-card"
-    >
-    
-      <mat-card-header class="card-header">
-        <h3 class="item-name">{{ item.nombre }}</h3>
-      </mat-card-header>
+          <mat-card-content class="card-content">
+            <div class="info-row">
+              <mat-icon class="info-icon location-icon">location_on</mat-icon>
+              <div class="info-text">
+                <span class="label">{{ 'ITEMS.ADDRESS' | translate }}</span>
+                <span class="value">{{ item.direccion }}</span>
+              </div>
+            </div>
 
-     
-      <mat-card-content class="card-content">
-       
-        <div class="info-row">
-          <mat-icon class="info-icon location-icon">location_on</mat-icon>
-          <div class="info-text">
-            <span class="label">Dirección:</span>
-            <span class="value">{{ item.direccion }}</span>
-          </div>
-        </div>
+            <div class="info-row">
+              <mat-icon class="info-icon phone-icon">phone</mat-icon>
+              <div class="info-text">
+                <span class="label">{{ 'ITEMS.PHONE' | translate }}</span>
+                @if (item.telefono !== 'Sin información') {
+                  <a [href]="'tel:' + item.telefono" class="value phone-link">{{
+                    item.telefono
+                  }}</a>
+                } @else {
+                  <span class="value">{{ item.telefono }}</span>
+                }
+              </div>
+            </div>
 
-        
-        <div class="info-row">
-          <mat-icon class="info-icon phone-icon">phone</mat-icon>
-          <div class="info-text">
-            <span class="label">Teléfono:</span>
-            <a *ngIf="item.telefono !== 'Sin información'" [href]="'tel:' + item.telefono" class="value phone-link">{{ item.telefono }}</a>
-            <span *ngIf="item.telefono === 'Sin información'" class="value">{{ item.telefono }}</span>
-          </div>
-        </div>
+            <div class="info-row">
+              <mat-icon class="info-icon hours-icon">schedule</mat-icon>
+              <div class="info-text">
+                <span class="label">{{ 'ITEMS.HOURS' | translate }}</span>
+                <span class="value">{{ item.horario }}</span>
+              </div>
+            </div>
 
-        
-        <div class="info-row">
-          <mat-icon class="info-icon hours-icon">schedule</mat-icon>
-          <div class="info-text">
-            <span class="label">Horario:</span>
-            <span class="value">{{ item.horario }}</span>
-          </div>
-        </div>
+            <div class="info-row">
+              <mat-icon class="info-icon website-icon">language</mat-icon>
+              <div class="info-text">
+                <span class="label">{{ 'ITEMS.WEBSITE' | translate }}</span>
+                @if (item.web !== 'Sin información') {
+                  <a
+                    [href]="item.web"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="value website-link"
+                    >{{ item.web }}</a
+                  >
+                } @else {
+                  <span class="value">{{ item.web }}</span>
+                }
+              </div>
+            </div>
 
-        
-        <div class="info-row">
-          <mat-icon class="info-icon website-icon">language</mat-icon>
-          <div class="info-text">
-            <span class="label">Web:</span>
-            <a *ngIf="item.web !== 'Sin información'" [href]="item.web" target="_blank" rel="noopener noreferrer" class="value website-link">{{ item.web }}</a>
-            <span *ngIf="item.web === 'Sin información'" class="value">{{ item.web }}</span>
-          </div>
-        </div>
+            <div class="description">
+              <span class="label">{{ 'ITEMS.DESCRIPTION' | translate }}</span>
+              <p class="value">{{ item.descripcion }}</p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      }
+    </div>
+  }
 
-        
-        <div class="description">
-          <span class="label">Descripción:</span>
-          <p class="value">{{ item.descripcion }}</p>
-        </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+  @if (!loading && !error && filteredItems.length === 0) {
+    <div class="no-results">
+      <mat-icon>search_off</mat-icon>
+      <p class="no-results-text">{{ 'ITEMS.NO_RESULTS' | translate }}</p>
+      <button mat-raised-button color="primary" (click)="clearSearch()">
+        {{ 'ITEMS.CLEAR_FILTERS' | translate }}
+      </button>
+    </div>
+  }
 
-  
-  <div *ngIf="!loading && !error && filteredItems.length === 0" class="no-results">
-    <mat-icon>search_off</mat-icon>
-    <p class="no-results-text">No se encontraron items que coincidan con tu búsqueda.</p>
-    <button mat-raised-button color="primary" (click)="clearSearch()">
-      Limpiar filtros
-    </button>
-  </div>
-
-  
-  <div *ngIf="!loading && !error && filteredItems.length > 0" class="results-info">
-    <p class="results-info-text">Se encontraron <strong>{{ filteredItems.length }}</strong> item(s)</p>
-  </div>
-
- 
- 
+  @if (!loading && !error && filteredItems.length > 0) {
+    <div class="results-info">
+      <p class="results-info-text">
+        {{ 'ITEMS.RESULTS_COUNT' | translate: { count: filteredItems.length } }}
+      </p>
+    </div>
+  }
 </div>

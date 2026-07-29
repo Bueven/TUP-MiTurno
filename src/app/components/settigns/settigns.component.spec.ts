@@ -1,17 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideTranslateService } from '@ngx-translate/core';
 
-import { SettignsComponent } from './settigns.component';
+import { SettingsComponent } from './settigns.component';
 
-describe('SettignsComponent', () => {
-  let component: SettignsComponent;
-  let fixture: ComponentFixture<SettignsComponent>;
+describe('SettingsComponent', () => {
+  let component: SettingsComponent;
+  let fixture: ComponentFixture<SettingsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SettignsComponent],
+      imports: [SettingsComponent],
+      providers: [provideTranslateService()],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(SettignsComponent);
+    fixture = TestBed.createComponent(SettingsComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
