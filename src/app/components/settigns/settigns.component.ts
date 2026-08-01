@@ -45,6 +45,7 @@ export class SettingsComponent implements OnInit {
       if (!user) return;
       this.userData.name = user.name;
       this.userData.email = user.email;
+      this.userData.profileImage = user.profileImage;
       this.userData.jobTitle = user.jobTitle;
       this.cdr.detectChanges();
       
