@@ -6,6 +6,13 @@
 /out-tsc
 /bazel-out
 
+# Capacitor (regenerado por "npm run android")
+/android
+/ios
+
+# Tauri
+/src-tauri/target
+
 # Node
 /node_modules
 npm-debug.log
