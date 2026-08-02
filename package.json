@@ -7,6 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "lighthouse": "npm run build && lhci autorun",
+    "analyze": "ng build --stats-json && esbuild-visualizer --metadata dist/mi-turno-web/stats.json --filename reports/bundle-report.html",
     "start:desktop": "tauri dev",
     "build:desktop": "tauri build",
     "build:mobile": "ng build",
@@ -27,6 +29,7 @@
     "@angular/service-worker": "^21.2.17",
     "@capacitor/android": "^8.4.2",
     "@capacitor/core": "^8.4.2",
+    "@sentry/angular": "^10.65.0",
     "@tauri-apps/api": "^2.11.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
@@ -36,8 +39,10 @@
     "@angular/cli": "^21.2.7",
     "@angular/compiler-cli": "^21.2.0",
     "@capacitor/cli": "^8.4.2",
+    "@lhci/cli": "^0.15.1",
     "@tauri-apps/cli": "^2.11.4",
     "@types/jasmine": "^6.0.0",
+    "esbuild-visualizer": "^0.7.0",
     "prettier": "^3.8.1",
     "typescript": "~5.9.2"
   }

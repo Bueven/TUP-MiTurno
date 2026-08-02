@@ -54,3 +54,9 @@ Thumbs.db
 # Firebase
 .firebase/
 firebase-debug.log
+
+# Lighthouse CI
+.lighthouseci/
+
+# Generated reports
+reports/

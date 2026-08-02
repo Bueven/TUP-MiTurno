@@ -4,6 +4,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
+import * as Sentry from '@sentry/angular';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +22,10 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   isLoading = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private analytics: AnalyticsService
+  ) {}
 
   login(): void {
     if (this.isLoading) return;
@@ -40,8 +45,17 @@ export class LoginComponent {
       sessionStorage.setItem('session', JSON.stringify(fakeUser));
       console.log('✅ Sesión guardada');
 
+      this.analytics.trackLogin(fakeUser.email);
+
+      Sentry.setUser({ email: fakeUser.email });
+
       this.router.navigate(['/main']);
       this.isLoading = false;
+
+      
+      setTimeout(() => {
+        throw new Error(`No se pudo sincronizar el perfil del usuario tras el login - usuario: ${fakeUser.email}`);
+      });
     }, 2000);
   }
 }
