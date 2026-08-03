@@ -12,6 +12,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { Subject } from 'rxjs';
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ItemsService, Item } from '../../services/items.service';
+import { AnalyticsService } from '../../services/analytics.service';
 
 type SortField = 'nombre' | 'direccion' | 'telefono' | 'none';
 type SortOrder = 'asc' | 'desc';
@@ -58,7 +59,8 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
   constructor(
     private itemsService: ItemsService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private analytics: AnalyticsService
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +73,9 @@ export class ItemsComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe((searchTerm) => {
+        if (searchTerm.trim()) {
+          this.analytics.trackSearch(searchTerm);
+        }
         this.applyFiltersAndSort();
       });
   }
@@ -155,6 +160,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
   
   refreshItems(): void {
+    this.analytics.trackRefresh();
     this.itemsService
       .getItems(true) 
       .pipe(takeUntil(this.destroy$))
