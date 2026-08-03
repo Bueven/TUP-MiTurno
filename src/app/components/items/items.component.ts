@@ -14,6 +14,7 @@ import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ItemsStoreService } from '../../services/items-store.service';
 import { Item } from '../../models/item.model';
+import { AnalyticsService } from '../../services/analytics.service';
 
 type SortField = 'nombre' | 'direccion' | 'telefono' | 'none';
 type SortOrder = 'asc' | 'desc';
@@ -41,6 +42,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
   private itemsStore = inject(ItemsStoreService);
   private cdr = inject(ChangeDetectorRef);
   private translate = inject(TranslateService);
+  private analytics = inject(AnalyticsService);
 
   items: Item[] = [];
   filteredItems: Item[] = [];
@@ -67,7 +69,10 @@ export class ItemsComponent implements OnInit, OnDestroy {
 
     this.searchSubject
       .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
-      .subscribe(() => {
+      .subscribe((searchTerm) => {
+        if (searchTerm.trim()) {
+          this.analytics.trackSearch(searchTerm);
+        }
         this.applyFiltersAndSort();
       });
   }
@@ -141,6 +146,7 @@ export class ItemsComponent implements OnInit, OnDestroy {
   }
 
   refreshItems(): void {
+    this.analytics.trackRefresh();
     this.itemsStore
       .getItems(true)
       .pipe(takeUntil(this.destroy$))

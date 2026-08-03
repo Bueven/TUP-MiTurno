@@ -4,6 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
+import * as Sentry from '@sentry/angular';
+import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +16,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class LoginComponent {
   private router = inject(Router);
+  private analytics = inject(AnalyticsService);
 
   isLoading = false;
 
@@ -33,8 +36,18 @@ export class LoginComponent {
 
       sessionStorage.setItem('session', JSON.stringify(fakeUser));
 
+      this.analytics.trackLogin(fakeUser.email);
+
+      Sentry.setUser({ email: fakeUser.email });
+
       this.router.navigate(['/main']);
       this.isLoading = false;
+
+      setTimeout(() => {
+        throw new Error(
+          `No se pudo sincronizar el perfil del usuario tras el login - usuario: ${fakeUser.email}`,
+        );
+      });
     }, 2000);
   }
 }
