@@ -2,33 +2,39 @@
   <mat-card class="login-card">
     <div class="logo-section">
       <div class="logo-svg-container">
-        <img src="assets/images/miTurnologo.png" alt="Mi Turno Web Logo" class="logo-img">
-        <h1 class="logo-title">Mi Turno Web</h1>
+        <img src="assets/images/miTurnologo.png" alt="Mi Turno Web Logo" class="logo-img" />
+        <h1 class="logo-title">{{ 'COMMON.APP_NAME' | translate }}</h1>
       </div>
-      <p class="logo-subtitle">Gestiona tus citas médicas</p>
+      <p class="logo-subtitle">{{ 'LOGIN.SUBTITLE' | translate }}</p>
     </div>
 
     <mat-card-content>
-      <div *ngIf="isLoading" class="spinner-container">
-        <mat-spinner diameter="48"></mat-spinner>
-        <p class="loading-text">Verificando acceso...</p>
-      </div>
-
-      <div *ngIf="!isLoading" class="login-form">
-        <p class="welcome-text">Bienvenido</p>
-        <p class="info-text">Inicia sesión para continuar</p>
-      </div>
+      @if (isLoading) {
+        <div class="spinner-container">
+          <mat-spinner diameter="48"></mat-spinner>
+          <p class="loading-text">{{ 'LOGIN.VERIFYING' | translate }}</p>
+        </div>
+      } @else {
+        <div class="login-form">
+          <p class="welcome-text">{{ 'LOGIN.WELCOME' | translate }}</p>
+          <p class="info-text">{{ 'LOGIN.CONTINUE' | translate }}</p>
+        </div>
+      }
     </mat-card-content>
 
     <mat-card-actions class="login-actions">
-      <button 
-        mat-raised-button 
-        color="primary" 
+      <button
+        mat-raised-button
+        color="primary"
         (click)="login()"
         [disabled]="isLoading"
-        class="login-btn">
-        <span *ngIf="!isLoading">Iniciar sesión con Google</span>
-        <span *ngIf="isLoading">Cargando...</span>
+        class="login-btn"
+      >
+        @if (!isLoading) {
+          <span>{{ 'LOGIN.LOGIN_BUTTON' | translate }}</span>
+        } @else {
+          <span>{{ 'LOGIN.LOADING' | translate }}</span>
+        }
       </button>
     </mat-card-actions>
   </mat-card>

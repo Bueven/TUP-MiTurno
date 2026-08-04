@@ -36,7 +36,7 @@
 
 .logo-section {
   background: var(--color-light-gray);
-  padding: 2.5rem var(--space-xl) 1rem; 
+  padding: 2.5rem var(--space-xl) 1rem;
   text-align: center;
 }
 
@@ -50,23 +50,23 @@
 
 .logo-img {
   width: 100%;
-  max-width: 11.25rem; 
+  max-width: 11.25rem;
   height: auto;
   object-fit: contain;
-  margin-bottom: 1rem; 
+  margin-bottom: 1rem;
 }
 
 .logo-title {
-  font-size: 2.5rem; 
-  font-weight: 800;   
+  font-size: 2.5rem;
+  font-weight: 800;
   color: var(--color-very-dark);
-  margin-top: 1rem;   
-  letter-spacing: -0.04em; 
+  margin-top: 1rem;
+  letter-spacing: -0.04em;
 }
 
 .logo-subtitle {
   font-size: 1rem;
-  color: var(--color-medium-gray); 
+  color: var(--color-medium-gray);
   margin: 0;
   font-weight: 400;
 }
@@ -129,7 +129,11 @@ mat-card-content {
   text-transform: uppercase;
   letter-spacing: 0.04em;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%) !important;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-dark) 100%
+  ) !important;
   color: var(--color-white) !important;
 }
 

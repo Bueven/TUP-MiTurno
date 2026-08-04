@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { ItemsComponent } from '../items/items.component';
 import { SettingsComponent } from '../settigns/settigns.component';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
@@ -33,33 +34,24 @@ interface UsuarioSistema {
     MatButtonModule,
     MatIconModule,
     MatListModule,
-    MatDialogModule
+    MatDialogModule,
+    TranslatePipe,
   ],
   templateUrl: './main.component.html',
-  styleUrl: './main.component.css'
+  styleUrl: './main.component.css',
 })
 export class MainComponent implements OnInit {
-  
-  isHandset$!: Observable<boolean>;
-    
+  private authService = inject(AuthService);
+  private dialog = inject(MatDialog);
+  private breakpointObserver = inject(BreakpointObserver);
+  private translate = inject(TranslateService);
 
-  
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
+    .pipe(map((result) => result.matches));
+
   currentView: 'items' | 'settings' = 'items';
   userInfo: UsuarioSistema | null = null;
-
-  constructor(
-    private authService: AuthService,
-    private dialog: MatDialog,
-    private breakpointObserver: BreakpointObserver
-  ) {
-    
-    this.isHandset$ = this.breakpointObserver
-      .observe(Breakpoints.Handset)
-      .pipe(
-        map(result => result.matches)
-      );
-    
-    }
 
   ngOnInit(): void {
     const session = sessionStorage.getItem('session');
@@ -68,26 +60,30 @@ export class MainComponent implements OnInit {
     }
   }
 
-  
   navigateTo(view: 'items' | 'settings'): void {
     this.currentView = view;
   }
 
   logout(): void {
-    this.dialog.open(ConfirmDialogComponent, {
-      width: '400px',
-      data: {
-        title: 'Cerrar Sesión',
-        message: '¿Estás seguro de que deseas cerrar sesión?',
-        confirmText: 'Cerrar Sesión',
-        cancelText: 'Cancelar'
-      }
-    }).afterClosed().subscribe(result => {
-      if (result) {
-        this.authService.logout().catch(error => {
-          console.error('Error al cerrar sesión:', error);
-        });
-      }
-    });
+    this.dialog
+      .open(ConfirmDialogComponent, {
+        width: '400px',
+        data: {
+          title: this.translate.instant('CONFIRM_DIALOG.LOGOUT_TITLE'),
+          message: this.translate.instant('CONFIRM_DIALOG.LOGOUT_MESSAGE'),
+          confirmText: this.translate.instant('MAIN.LOGOUT'),
+          cancelText: this.translate.instant('COMMON.CANCEL'),
+        },
+      })
+      .afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          // La limpieza de sessionStorage y la navegacion las hace AppComponent
+          // cuando Firebase emite que ya no hay usuario.
+          this.authService.logout().catch((error) => {
+            console.error('Error al cerrar sesión:', error);
+          });
+        }
+      });
   }
 }

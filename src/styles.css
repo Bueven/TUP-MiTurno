@@ -1,10 +1,8 @@
 ﻿:root {
-  
   --color-primary: #667eea;
   --color-primary-dark: #764ba2;
   --color-white: white;
 
-  
   --color-dark-gray: #333;
   --color-medium-gray: #666;
   --color-medium-gray-2: #999;
@@ -15,7 +13,6 @@
   --color-gray-very-light: #ccc;
   --color-very-dark: #1a1a1a;
 
-
   --color-error: #ff6b6b;
   --color-error-alt: #e74c3c;
   --color-error-bg: #fff5f5;
@@ -23,7 +20,6 @@
   --color-info: #3498db;
   --color-sidebar-hover: #d9d5f0;
   --color-sidebar-active: #5a4a9a;
-
 
   --color-shadow-dark: rgba(0, 0, 0, 0.1);
   --color-shadow-dark-2: rgba(0, 0, 0, 0.12);
