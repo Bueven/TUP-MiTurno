@@ -27,9 +27,6 @@ export class AppComponent {
         if (user) {
           this.router.navigate(['/main']);
         } else {
-          sessionStorage.removeItem('session');
-          sessionStorage.removeItem('items');
-          sessionStorage.removeItem('itemsTimestamp');
           this.router.navigate(['/login']);
         }
       });

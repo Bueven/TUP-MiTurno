@@ -63,8 +63,7 @@ export class SettingsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        // La limpieza de sessionStorage y la navegacion las hace AppComponent
-        // cuando Firebase emite que ya no hay usuario.
+        // La navegacion la hace AppComponent cuando Firebase emite que ya no hay usuario.
         this.authService.logout().catch((error) => {
           console.error('Error al cerrar sesión:', error);
         });

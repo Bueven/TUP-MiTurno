@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
@@ -14,13 +14,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { AuthService } from '../../services/auth';
-
-interface UsuarioSistema {
-  id: string;
-  name: string;
-  email: string;
-  loginAt: number;
-}
 
 @Component({
   selector: 'app-main',
@@ -40,7 +33,7 @@ interface UsuarioSistema {
   templateUrl: './main.component.html',
   styleUrl: './main.component.css',
 })
-export class MainComponent implements OnInit {
+export class MainComponent {
   private authService = inject(AuthService);
   private dialog = inject(MatDialog);
   private breakpointObserver = inject(BreakpointObserver);
@@ -51,14 +44,6 @@ export class MainComponent implements OnInit {
     .pipe(map((result) => result.matches));
 
   currentView: 'items' | 'settings' = 'items';
-  userInfo: UsuarioSistema | null = null;
-
-  ngOnInit(): void {
-    const session = sessionStorage.getItem('session');
-    if (session) {
-      this.userInfo = JSON.parse(session);
-    }
-  }
 
   navigateTo(view: 'items' | 'settings'): void {
     this.currentView = view;
@@ -78,8 +63,7 @@ export class MainComponent implements OnInit {
       .afterClosed()
       .subscribe((result) => {
         if (result) {
-          // La limpieza de sessionStorage y la navegacion las hace AppComponent
-          // cuando Firebase emite que ya no hay usuario.
+          // La navegacion la hace AppComponent cuando Firebase emite que ya no hay usuario.
           this.authService.logout().catch((error) => {
             console.error('Error al cerrar sesión:', error);
           });
