@@ -113,7 +113,7 @@ mat-sidenav-content {
   flex: 1;
   overflow-y: auto;
   width: 100%;
- background: #ede7f6;
+  background: #ede7f6;
 }
 
 .mobile-toolbar {
@@ -127,41 +127,39 @@ mat-sidenav-content {
 .content {
   flex: 1;
   padding: 2.5rem 3rem;
- background-color: #ede7f6;
+  background-color: #ede7f6;
   width: 100%;
   box-sizing: border-box;
   min-height: 100%;
 }
 
-
-.card, 
-[class*="card"],
+.card,
+[class*='card'],
 mat-card {
   box-shadow: 0 2px 8px var(--color-shadow-dark) !important;
   transition: all 0.3s ease !important;
 }
 
 .card:hover,
-[class*="card"]:hover,
+[class*='card']:hover,
 mat-card:hover {
   box-shadow: 0 4px 16px var(--color-shadow-dark-2) !important;
   transform: translateY(-2px) !important;
 }
 
-
-input[type="text"],
-input[type="search"],
+input[type='text'],
+input[type='search'],
 .search-input,
-[class*="search"],
+[class*='search'],
 mat-form-field {
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06) !important;
   transition: all 0.3s ease !important;
 }
 
-input[type="text"]:focus,
-input[type="search"]:focus,
+input[type='text']:focus,
+input[type='search']:focus,
 .search-input:focus,
-[class*="search"]:focus,
+[class*='search']:focus,
 mat-form-field:focus {
   box-shadow: 0 4px 12px var(--color-shadow-primary-light) !important;
 }

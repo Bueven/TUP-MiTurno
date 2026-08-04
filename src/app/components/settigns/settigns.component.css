@@ -7,7 +7,6 @@
   gap: 2rem;
 }
 
-
 .user-profile-section {
   animation: fadeInUp 0.5s ease;
 }
@@ -87,7 +86,7 @@
   flex-shrink: 0;
 }
 
-.detail-item label {
+.detail-item .detail-label {
   display: block;
   font-size: 0.8rem;
   color: var(--color-medium-gray-2);
@@ -107,7 +106,11 @@
 .logout-btn {
   width: 100%;
   padding: 0.75rem 1.5rem !important;
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%) !important;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-dark) 100%
+  ) !important;
   color: var(--color-white) !important;
   font-weight: 600 !important;
   font-size: 1rem !important;
@@ -207,7 +210,7 @@
   background: var(--color-light-gray);
 }
 
-.detail-row label {
+.detail-row .detail-label {
   display: block;
   font-size: 0.85rem;
   color: var(--color-medium-gray);
@@ -263,7 +266,6 @@
   transform: scale(1.1);
 }
 
-
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -274,7 +276,6 @@
     transform: translateY(0);
   }
 }
-
 
 @media (max-width: 48rem) {
   .settings-container {

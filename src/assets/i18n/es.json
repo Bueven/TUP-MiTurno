@@ -1,0 +1,65 @@
+{
+  "COMMON": {
+    "APP_NAME": "Mi Turno Web",
+    "CANCEL": "Cancelar",
+    "CONFIRM": "Confirmar"
+  },
+  "LOGIN": {
+    "SUBTITLE": "Gestiona tus citas médicas",
+    "VERIFYING": "Verificando acceso...",
+    "WELCOME": "Bienvenido",
+    "CONTINUE": "Inicia sesión para continuar",
+    "LOGIN_BUTTON": "Iniciar Sesión",
+    "LOADING": "Cargando..."
+  },
+  "MAIN": {
+    "ITEMS": "Items",
+    "SETTINGS": "Configuración",
+    "LOGOUT": "Cerrar Sesión"
+  },
+  "ITEMS": {
+    "TITLE": "Items",
+    "REFRESH_TOOLTIP": "Recargar items",
+    "SEARCH_LABEL": "Buscar por nombre, dirección o descripción",
+    "SEARCH_PLACEHOLDER": "Buscar...",
+    "CLEAR_SEARCH_TOOLTIP": "Limpiar búsqueda",
+    "SORT_LABEL": "Ordenar por",
+    "SORT_NONE": "Sin ordenar",
+    "SORT_NAME": "Nombre",
+    "SORT_ADDRESS": "Dirección",
+    "SORT_PHONE": "Teléfono",
+    "SORT_ORDER_TOOLTIP": "Orden: {{order}}",
+    "ASCENDING": "Ascendente",
+    "DESCENDING": "Descendente",
+    "LOADING": "Cargando items...",
+    "ERROR_LOAD": "No se pudieron cargar los items. Por favor, intenta más tarde.",
+    "ERROR_REFRESH": "No se pudieron recargar los items. Por favor, intenta más tarde.",
+    "RETRY": "Intentar de nuevo",
+    "ADDRESS": "Dirección:",
+    "PHONE": "Teléfono:",
+    "HOURS": "Horario:",
+    "WEBSITE": "Web:",
+    "DESCRIPTION": "Descripción:",
+    "NO_RESULTS": "No se encontraron items que coincidan con tu búsqueda.",
+    "CLEAR_FILTERS": "Limpiar filtros",
+    "RESULTS_COUNT": "Se encontraron {{count}} item(s)"
+  },
+  "SETTINGS": {
+    "EMAIL": "Correo Electrónico",
+    "PHONE": "Teléfono",
+    "JOB_TITLE": "Cargo",
+    "LOGOUT": "Cerrar Sesión",
+    "APP_INFO_TITLE": "Información de la Aplicación",
+    "APP_VERSION": "Versión de la Aplicación",
+    "USER_AGENT": "User Agent",
+    "COPY_USER_AGENT_TOOLTIP": "Copiar User Agent",
+    "COPIED_ALERT": "User Agent copiado al portapapeles",
+    "OS": "Sistema Operativo",
+    "BROWSER": "Navegador",
+    "UNKNOWN": "Desconocido"
+  },
+  "CONFIRM_DIALOG": {
+    "LOGOUT_TITLE": "Cerrar Sesión",
+    "LOGOUT_MESSAGE": "¿Estás seguro de que deseas cerrar sesión?"
+  }
+}

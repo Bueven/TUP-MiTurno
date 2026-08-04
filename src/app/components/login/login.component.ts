@@ -1,37 +1,29 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 import * as Sentry from '@sentry/angular';
 import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [
-    CommonModule,
-    MatCardModule,
-    MatButtonModule,
-    MatProgressSpinnerModule
-  ],
+  imports: [MatCardModule, MatButtonModule, MatProgressSpinnerModule, TranslatePipe],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  isLoading = false;
+  private router = inject(Router);
+  private analytics = inject(AnalyticsService);
 
-  constructor(
-    private router: Router,
-    private analytics: AnalyticsService
-  ) {}
+  isLoading = false;
 
   login(): void {
     if (this.isLoading) return;
 
     this.isLoading = true;
-    console.log('⏳ Iniciando sesión...');
 
     setTimeout(() => {
       const fakeUser = {
@@ -39,11 +31,10 @@ export class LoginComponent {
         name: 'Juan Pérez',
         email: 'juan@example.com',
         loginAt: new Date().getTime(),
-        jobTitle: 'Recepcionista'
+        jobTitle: 'Recepcionista',
       };
 
       sessionStorage.setItem('session', JSON.stringify(fakeUser));
-      console.log('✅ Sesión guardada');
 
       this.analytics.trackLogin(fakeUser.email);
 
@@ -52,9 +43,10 @@ export class LoginComponent {
       this.router.navigate(['/main']);
       this.isLoading = false;
 
-      
       setTimeout(() => {
-        throw new Error(`No se pudo sincronizar el perfil del usuario tras el login - usuario: ${fakeUser.email}`);
+        throw new Error(
+          `No se pudo sincronizar el perfil del usuario tras el login - usuario: ${fakeUser.email}`,
+        );
       });
     }, 2000);
   }
