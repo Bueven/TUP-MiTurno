@@ -2,9 +2,9 @@ import { Component, inject } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { Router } from '@angular/router';
 import { TranslatePipe } from '@ngx-translate/core';
 import * as Sentry from '@sentry/angular';
+import { AuthService } from '../../services/auth';
 import { AnalyticsService } from '../../services/analytics.service';
 
 @Component({
@@ -15,7 +15,7 @@ import { AnalyticsService } from '../../services/analytics.service';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  private router = inject(Router);
+  private authService = inject(AuthService);
   private analytics = inject(AnalyticsService);
 
   isLoading = false;
@@ -25,29 +25,24 @@ export class LoginComponent {
 
     this.isLoading = true;
 
-    setTimeout(() => {
-      const fakeUser = {
-        id: 'user-123',
-        name: 'Juan Pérez',
-        email: 'juan@example.com',
-        loginAt: new Date().getTime(),
-        jobTitle: 'Recepcionista',
-      };
+    this.authService
+      .loginWithGoogle()
+      .then((result) => {
+        const email = result.user.email ?? '';
 
-      sessionStorage.setItem('session', JSON.stringify(fakeUser));
+        this.analytics.trackLogin(email);
+        Sentry.setUser({ email });
 
-      this.analytics.trackLogin(fakeUser.email);
+        this.isLoading = false;
 
-      Sentry.setUser({ email: fakeUser.email });
-
-      this.router.navigate(['/main']);
-      this.isLoading = false;
-
-      setTimeout(() => {
-        throw new Error(
-          `No se pudo sincronizar el perfil del usuario tras el login - usuario: ${fakeUser.email}`,
-        );
+        setTimeout(() => {
+          throw new Error(
+            `No se pudo sincronizar el perfil del usuario tras el login - usuario: ${email}`,
+          );
+        });
+      })
+      .catch(() => {
+        this.isLoading = false;
       });
-    }, 2000);
   }
 }

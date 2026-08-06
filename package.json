@@ -34,6 +34,7 @@
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",
     "@angular/core": "^21.2.0",
+    "@angular/fire": "^20.0.1",
     "@angular/forms": "^21.2.0",
     "@angular/material": "^21.2.7",
     "@angular/platform-browser": "^21.2.0",
@@ -45,6 +46,7 @@
     "@ngx-translate/http-loader": "^18.0.0",
     "@sentry/angular": "^10.65.0",
     "@tauri-apps/api": "^2.11.1",
+    "firebase": "^12.14.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0"
   },

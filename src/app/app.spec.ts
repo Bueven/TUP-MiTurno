@@ -3,6 +3,7 @@ import { provideRouter } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { EMPTY } from 'rxjs';
 import { AppComponent } from './app.component';
+import { AuthService } from './services/auth';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -11,6 +12,7 @@ describe('AppComponent', () => {
       providers: [
         provideRouter([]),
         { provide: SwUpdate, useValue: { isEnabled: false, versionUpdates: EMPTY } },
+        { provide: AuthService, useValue: { user$: EMPTY } },
       ],
     }).compileComponents();
   });
