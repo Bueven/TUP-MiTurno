@@ -8,12 +8,14 @@ describe('ItemsStorageService', () => {
 
   const mockItems: Item[] = [
     {
+      id: '1',
       nombre: 'Clínica Test',
       direccion: 'Calle Falsa 123',
       horario: '9 a 18',
       telefono: '123456',
       descripcion: 'Descripción de prueba',
       web: 'https://example.com',
+      activo: true,
     },
   ];
 
