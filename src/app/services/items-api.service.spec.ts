@@ -25,33 +25,35 @@ describe('ItemsApiService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should map the Overpass response into items', async () => {
+  it('should fetch items from the REST API', async () => {
     const result = firstValueFrom(service.fetchItems());
 
-    const req = httpMock.expectOne('https://overpass-api.de/api/interpreter');
-    expect(req.request.method).toBe('POST');
-    req.flush({
-      elements: [{ tags: { name: 'Clínica Test', 'addr:street': 'Calle Falsa 123' } }],
-    });
-
-    expect(await result).toEqual([
+    const req = httpMock.expectOne('https://tup-miturno-api.onrender.com/items');
+    expect(req.request.method).toBe('GET');
+    req.flush([
       {
+        id: '1',
         nombre: 'Clínica Test',
         direccion: 'Calle Falsa 123',
         horario: 'Sin información',
         telefono: 'Sin información',
         descripcion: 'Sin información',
         web: 'Sin información',
+        activo: true,
       },
     ]);
-  });
 
-  it('should ignore elements without a name', async () => {
-    const result = firstValueFrom(service.fetchItems());
-
-    const req = httpMock.expectOne('https://overpass-api.de/api/interpreter');
-    req.flush({ elements: [{ tags: {} }] });
-
-    expect(await result).toEqual([]);
+    expect(await result).toEqual([
+      {
+        id: '1',
+        nombre: 'Clínica Test',
+        direccion: 'Calle Falsa 123',
+        horario: 'Sin información',
+        telefono: 'Sin información',
+        descripcion: 'Sin información',
+        web: 'Sin información',
+        activo: true,
+      },
+    ]);
   });
 });

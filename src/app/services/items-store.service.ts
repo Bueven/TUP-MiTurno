@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { Item } from '../models/item.model';
 import { ItemsApiService } from './items-api.service';
 import { ItemsStorageService } from './items-storage.service';
@@ -21,6 +21,7 @@ export class ItemsStoreService {
     }
 
     return this.api.fetchItems().pipe(
+      map((items) => items.filter((item) => item.activo)),
       tap((items) => {
         if (items.length > 0) {
           this.storage.saveItems(items);
@@ -42,8 +43,8 @@ export class ItemsStoreService {
 
   sortItems(items: Item[], prop: keyof Item, ascending = true): Item[] {
     return [...items].sort((a, b) => {
-      const v1 = (a[prop] || '').toLowerCase();
-      const v2 = (b[prop] || '').toLowerCase();
+      const v1 = String(a[prop] ?? '').toLowerCase();
+      const v2 = String(b[prop] ?? '').toLowerCase();
       if (v1 < v2) return ascending ? -1 : 1;
       if (v1 > v2) return ascending ? 1 : -1;
       return 0;

@@ -17,10 +17,28 @@ describe('ItemsStoreService', () => {
   };
 
   const apiItems: Item[] = [
-    { nombre: 'B', direccion: 'x', horario: 'x', telefono: 'x', descripcion: 'x', web: 'x' },
+    {
+      id: '2',
+      nombre: 'B',
+      direccion: 'x',
+      horario: 'x',
+      telefono: 'x',
+      descripcion: 'x',
+      web: 'x',
+      activo: true,
+    },
   ];
   const cachedItems: Item[] = [
-    { nombre: 'A', direccion: 'x', horario: 'x', telefono: 'x', descripcion: 'x', web: 'x' },
+    {
+      id: '1',
+      nombre: 'A',
+      direccion: 'x',
+      horario: 'x',
+      telefono: 'x',
+      descripcion: 'x',
+      web: 'x',
+      activo: true,
+    },
   ];
 
   beforeEach(() => {
@@ -68,23 +86,38 @@ describe('ItemsStoreService', () => {
     expect(apiSpy.fetchItems).toHaveBeenCalled();
   });
 
+  it('should filter out inactive items returned by the API', async () => {
+    storageSpy.getCachedItems.mockReturnValue(null);
+    apiSpy.fetchItems.mockReturnValue(
+      of([...apiItems, { ...apiItems[0], id: '3', activo: false }]),
+    );
+
+    const items = await firstValueFrom(service.getItems());
+
+    expect(items).toEqual(apiItems);
+  });
+
   it('should filter items by name, address or description', () => {
     const items: Item[] = [
       {
+        id: '1',
         nombre: 'Hospital Central',
         direccion: 'Av. Siempre Viva',
         horario: '',
         telefono: '',
         descripcion: '',
         web: '',
+        activo: true,
       },
       {
+        id: '2',
         nombre: 'Clínica Norte',
         direccion: 'Calle Falsa',
         horario: '',
         telefono: '',
         descripcion: '',
         web: '',
+        activo: true,
       },
     ];
 
@@ -94,8 +127,26 @@ describe('ItemsStoreService', () => {
 
   it('should sort items ascending and descending', () => {
     const items: Item[] = [
-      { nombre: 'B', direccion: '', horario: '', telefono: '', descripcion: '', web: '' },
-      { nombre: 'A', direccion: '', horario: '', telefono: '', descripcion: '', web: '' },
+      {
+        id: '1',
+        nombre: 'B',
+        direccion: '',
+        horario: '',
+        telefono: '',
+        descripcion: '',
+        web: '',
+        activo: true,
+      },
+      {
+        id: '2',
+        nombre: 'A',
+        direccion: '',
+        horario: '',
+        telefono: '',
+        descripcion: '',
+        web: '',
+        activo: true,
+      },
     ];
 
     expect(service.sortItems(items, 'nombre', true).map((i) => i.nombre)).toEqual(['A', 'B']);
